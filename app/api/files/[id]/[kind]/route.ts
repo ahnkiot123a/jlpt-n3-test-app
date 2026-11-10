@@ -10,6 +10,23 @@ const KINDS = {
   answer: { field: "answerPdf", type: "application/pdf" },
 } as const;
 
+function getPublicAssetUrl(folder: string, fileName: string): URL | null {
+  const assetBaseUrl = process.env.EXAM_ASSET_BASE_URL;
+  if (!assetBaseUrl) return null;
+
+  const baseUrl = new URL(assetBaseUrl);
+  if (baseUrl.protocol !== "https:" || baseUrl.search || baseUrl.hash) {
+    throw new Error("EXAM_ASSET_BASE_URL must be an HTTPS URL without a query or hash");
+  }
+
+  const objectKey = `${folder}/${fileName}`
+    .split("/")
+    .map((segment) => encodeURIComponent(segment.normalize("NFD")))
+    .join("/");
+  baseUrl.pathname = `${baseUrl.pathname.replace(/\/+$/, "")}/${objectKey}`;
+  return baseUrl;
+}
+
 // Vietnamese file names on disk may be stored in NFC or NFD form.
 async function resolveFile(folder: string, name: string): Promise<string | null> {
   const dir = path.join(ROOT, folder);
@@ -68,6 +85,9 @@ export async function GET(
   const spec = KINDS[kind as keyof typeof KINDS];
   const fileName = meta && spec ? meta[spec.field] : undefined;
   if (!meta || !spec || !fileName) return new Response("Not found", { status: 404 });
+
+  const publicAssetUrl = getPublicAssetUrl(meta.folder, fileName);
+  if (publicAssetUrl) return Response.redirect(publicAssetUrl, 307);
 
   const filePath = await resolveFile(meta.folder, fileName);
   if (!filePath) return new Response("Not found", { status: 404 });

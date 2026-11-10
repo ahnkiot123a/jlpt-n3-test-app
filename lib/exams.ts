@@ -17,6 +17,7 @@ import exam201712 from "@/data/2017-12";
 import exam201807 from "@/data/2018-07";
 import exam201812 from "@/data/2018-12";
 import exam201907 from "@/data/2019-07";
+import exam201912 from "@/data/2019-12";
 
 function meta(year: number, month: 7 | 12, files: Partial<ExamMeta> = {}): ExamMeta {
   const folder = `N3 ${month}-${year}`;
@@ -240,6 +241,7 @@ const DATA: Record<string, ExamData> = {
   [exam201807.id]: exam201807,
   [exam201812.id]: exam201812,
   [exam201907.id]: exam201907,
+  [exam201912.id]: exam201912,
 };
 
 export function getExamMeta(id: string): ExamMeta | undefined {

@@ -1,13 +1,30 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ExamRunner from "@/components/ExamRunner";
 import { EXAMS, getExamData, getExamMeta } from "@/lib/exams";
 
+type ExamPageProps = { params: Promise<{ id: string }> };
+
 export function generateStaticParams() {
   return EXAMS.map((e) => ({ id: e.id }));
 }
 
-export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+export default function ExamPage({ params }: ExamPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <main className="fallback" aria-busy="true">
+          <p className="muted">Đang tải đề…</p>
+        </main>
+      }
+    >
+      <ExamPageContent params={params} />
+    </Suspense>
+  );
+}
+
+async function ExamPageContent({ params }: ExamPageProps) {
   const { id } = await params;
   const meta = getExamMeta(id);
   if (!meta) notFound();
