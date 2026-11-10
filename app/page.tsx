@@ -1,69 +1,28 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import History from "@/components/History";
+import { EXAMS, getExamData } from "@/lib/exams";
 
 export default function Home() {
+  const exams = [...EXAMS].reverse();
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="home">
+      <h1>Đề thi JLPT N3 các năm</h1>
+      <p className="muted">
+        Đề có nhãn <span className="badge on">Tương tác</span> làm trực tiếp trên web và chấm điểm tự động. Các đề
+        khác hiện mở dạng PDF + audio.
+      </p>
+      <div className="exam-grid">
+        {exams.map((e) => {
+          const ready = Boolean(getExamData(e.id));
+          return (
+            <Link key={e.id} href={`/exam/${e.id}`} className="exam-card">
+              <strong>{e.label}</strong>
+              <span className={ready ? "badge on" : "badge"}>{ready ? "Tương tác" : "PDF"}</span>
+            </Link>
+          );
+        })}
+      </div>
+      <History />
+    </main>
   );
 }

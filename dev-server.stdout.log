@@ -1,0 +1,61 @@
+
+> web@0.1.0 dev
+> next dev -p 3123
+
+▲ Next.js 16.4.5 (Turbopack)
+- Local:         http://localhost:3123
+- Network:       http://10.116.227.49:3123
+✓ Ready in 5.9s
+✓ Running next.config.ts took 143ms
+- Cache Components enabled
+- Partial Prefetching enabled
+
+○ Compiling / ...
+ GET / 200 in 1197ms (next.js: 877ms, application-code: 320ms)
+ GET / 200 in 80ms (next.js: 5ms, application-code: 75ms)
+ GET /exam/2016-07 200 in 1189ms (next.js: 26ms, generate-params: 1096ms, application-code: 67ms)
+ GET /exam/2012-07 200 in 93ms (next.js: 3ms, generate-params: 29ms, application-code: 61ms)
+ GET /api/files/2012-07/exam 200 in 5.7s (next.js: 1473ms, application-code: 4.2s)
+ HEAD / 200 in 83ms (next.js: 8ms, application-code: 75ms)
+ HEAD /exam/2016-07 200 in 87ms (next.js: 4ms, generate-params: 26ms, application-code: 58ms)
+ HEAD /exam/2012-07 200 in 59ms (next.js: 3ms, generate-params: 0.0ms, application-code: 56ms)
+ HEAD /api/files/2012-07/exam 200 in 51ms (next.js: 32ms, application-code: 19ms)
+ HEAD /api/files/2019-07/exam 404 in 17ms (next.js: 3ms, application-code: 14ms)
+ HEAD /api/files/2016-07/..%2F..%2Fx 404 in 17ms (next.js: 3ms, application-code: 15ms)
+ GET /exam/2016-07 200 in 62ms (next.js: 3ms, generate-params: 0.0ms, application-code: 59ms)
+ GET /api/files/2016-07/audio 206 in 150ms (next.js: 79ms, application-code: 71ms)
+ HEAD / 200 in 71ms (next.js: 5ms, application-code: 66ms)
+ GET / 200 in 70ms (next.js: 3ms, application-code: 67ms)
+ GET / 200 in 86ms (next.js: 5ms, application-code: 82ms)
+ GET /exam/2016-07 200 in 113ms (next.js: 5ms, generate-params: 42ms, application-code: 66ms)
+ GET /api/files/2016-07/audio 206 in 226ms (next.js: 104ms, application-code: 122ms)
+ GET /api/files/2016-07/audio 206 in 88ms (next.js: 1.9ms, application-code: 86ms)
+ GET / 200 in 90ms (next.js: 3ms, application-code: 87ms)
+ GET /exam/2019-07 200 in 73ms (next.js: 4ms, generate-params: 30ms, application-code: 40ms)
+ GET / 200 in 40ms (next.js: 2ms, application-code: 37ms)
+ GET /exam/2018-07 200 in 67ms (next.js: 3ms, generate-params: 25ms, application-code: 39ms)
+ GET /api/files/2018-07/exam 200 in 196ms (next.js: 65ms, application-code: 130ms)
+ GET /api/files/2018-07/answer 200 in 520ms (next.js: 69ms, application-code: 451ms)
+ GET /api/files/2018-07/exam 200 in 56ms (next.js: 29ms, application-code: 27ms)
+ GET / 200 in 94ms (next.js: 3ms, application-code: 90ms)
+ GET / 200 in 57ms (next.js: 4ms, application-code: 53ms)
+ GET /exam/2016-07 200 in 90ms (next.js: 3ms, generate-params: 24ms, application-code: 63ms)
+ GET /api/files/2016-07/audio 206 in 58ms (next.js: 28ms, application-code: 31ms)
+ GET /api/files/2016-07/audio 206 in 11ms (next.js: 1.8ms, application-code: 10ms)
+ GET /exam/2016-07 200 in 149ms (next.js: 3ms, generate-params: 25ms, application-code: 121ms)
+ GET /api/files/2018-07/audio 206 in 10.5s (next.js: 25ms, application-code: 10.4s)
+ GET /api/files/2016-07/audio 206 in 4.6min (next.js: 3ms, application-code: 4.6min)
+ GET /exam/2016-07 200 in 101ms (next.js: 4ms, generate-params: 26ms, application-code: 71ms)
+ GET /api/files/2016-07/audio 206 in 20.2s (next.js: 26ms, application-code: 20.2s)
+ GET /api/files/2016-07/audio 206 in 54ms (next.js: 29ms, application-code: 25ms)
+ GET /api/files/2012-07/audio 206 in 45ms (next.js: 3ms, application-code: 42ms)
+ GET /api/files/2018-12/audio 206 in 34ms (next.js: 2ms, application-code: 32ms)
+ GET /api/files/2016-07/audio 206 in 28.0s (next.js: 30ms, application-code: 27.9s)
+ GET /api/files/2016-07/audio?nocache=0.4798875447079305 206 in 10.7s (next.js: 3ms, application-code: 10.7s)
+ GET /api/files/2016-07/audio?nocache=0.8928605597872471 206 in 10.8s (next.js: 26ms, application-code: 10.8s)
+✓ Compiled in 1612ms
+✓ Compiled in 477ms
+ GET / 200 in 72ms (next.js: 5ms, application-code: 66ms)
+ GET /exam/2016-07 200 in 169ms (next.js: 46ms, generate-params: 32ms, application-code: 92ms)
+ GET /exam/2016-07 200 in 162ms (next.js: 63ms, generate-params: 0.0ms, application-code: 100ms)
+[?25h

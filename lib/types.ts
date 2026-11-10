@@ -3,6 +3,7 @@ export type ScoreArea = "gengo" | "dokkai" | "choukai";
 export interface Question {
   no: number;
   prompt?: string;
+  image?: string;
   /** Empty strings mean the choices are only spoken in the audio. */
   options: string[];
   answer: number;

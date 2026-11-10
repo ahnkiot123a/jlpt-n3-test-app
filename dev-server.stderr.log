@@ -1,0 +1,342 @@
+⚠ Slow filesystem detected. The benchmark took 580ms. If \\?\E:\日本語\Đề thi các năm\web\.next\dev is a network drive, consider moving it to a local folder.
+See more: https://nextjs.org/docs/app/guides/local-development
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <RootLayout>
+                        <html
+                          lang="vi"
+-                         data-yd-metadata-content-site="common"
+-                         data-yd-content-ready="true"
+-                         className="mdl-js"
+                        >
+                  ...
+ 
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/exam/2016-07" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <RootLayout>
+                        <html
+                          lang="vi"
+-                         data-yd-metadata-content-site="common"
+-                         data-yd-content-ready="true"
+                        >
+                  ...
+ 
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at ignore-listed frames {
+  code: 'ERR_INVALID_STATE'
+}
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
+Error: Route "/exam/[id]": Next.js encountered URL data during prerendering or a navigation.
+
+`params` or `searchParams` accessed outside of `<Suspense>` may prevent the navigation from being instant, leading to a slower user experience.
+
+Ways to fix this:
+  - [stream] Provide a placeholder with `<Suspense fallback={...}>` around the data access
+  - [block] Set `export const instant = false` to allow a blocking route
+
+Learn more: https://nextjs.org/docs/messages/instant-shell-url-data
+    at ExamPage (app\exam\[id]\page.tsx:11:18)
+   9 |
+  10 | export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
+> 11 |   const { id } = await params;
+     |                  ^
+  12 |   const meta = getExamMeta(id);
+  13 |   if (!meta) notFound();
+  14 |
