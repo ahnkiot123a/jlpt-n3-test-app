@@ -60,3 +60,15 @@ aws s3 sync "$ASSET_DIR/" "s3://$R2_BUCKET/$ASSET_PREFIX/" \
 ```
 
 Attach a public custom domain to the R2 bucket, then add `EXAM_ASSET_BASE_URL` with that domain (for example, `https://media.example.com`) under **Vercel → Project Settings → Environment Variables** and redeploy. Keep the R2 write credentials local; they are not needed by the deployed app. Without `EXAM_ASSET_BASE_URL`, the app continues to read the files from the sibling `N3_*` folder during local development.
+
+### AI explanations
+
+After submitting an interactive exam, use **Hỏi gia sư AI** on an individual question to request an explanation from Gemini. The API key is read only by the server and must never be added to client code or committed files.
+
+For local development, create `web/.env.local` (this file is ignored by Git) and add:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+Set `GEMINI_API_KEY` in the deployment platform's server-side environment variables and redeploy. The app sends only the selected question, its answer choices, relevant group context, the correct answer, and your selected answer to Gemini. Audio-only questions may have limited explanations when their transcript is not included in the interactive data.

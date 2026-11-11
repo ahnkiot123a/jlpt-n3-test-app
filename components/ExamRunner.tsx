@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import RichText from "./RichText";
@@ -49,6 +50,41 @@ function formatTime(ms: number) {
   return `${sign}${m}:${String(s).padStart(2, "0")}`;
 }
 
+function renderAiInline(text: string): ReactNode[] {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, index) =>
+    part.startsWith("**") && part.endsWith("**") ? (
+      <strong key={index}>{part.slice(2, -2)}</strong>
+    ) : (
+      part
+    ),
+  );
+}
+
+function AiAnswer({ text }: { text: string }) {
+  const lines = text.trim().split(/\r?\n/);
+
+  return (
+    <div className="ai-answer-content">
+      {lines.map((line, index) => {
+        const content = line.trim();
+        if (!content) return <div className="ai-answer-spacer" key={index} aria-hidden="true" />;
+
+        const bullet = content.match(/^(?:[-*•]\s+|\d+[.)]\s+)/);
+        if (bullet) {
+          return (
+            <p className="ai-answer-item" key={index}>
+              <span aria-hidden="true">•</span>
+              <span>{renderAiInline(content.slice(bullet[0].length))}</span>
+            </p>
+          );
+        }
+
+        return <p key={index}>{renderAiInline(content)}</p>;
+      })}
+    </div>
+  );
+}
+
 function Runner({ meta, exam }: { meta: ExamMeta; exam: ExamData }) {
   const router = useRouter();
   const storageKey = `n3-progress-${exam.id}`;
@@ -57,11 +93,32 @@ function Runner({ meta, exam }: { meta: ExamMeta; exam: ExamData }) {
   const [now, setNow] = useState(() => Date.now());
   const [pendingSection, setPendingSection] = useState<number | null>(null);
   const [confirmLeave, setConfirmLeave] = useState(false);
+  const [aiExplanations, setAiExplanations] = useState<Record<string, string>>({});
+  const [aiErrors, setAiErrors] = useState<Record<string, string>>({});
+  const [openAiQuestion, setOpenAiQuestion] = useState<string | null>(null);
+  const [aiLoadingQuestion, setAiLoadingQuestion] = useState<string | null>(null);
   const submittedRef = useRef(progress.submitted);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const aiRequestController = useRef<AbortController | null>(null);
 
   const section = exam.sections[active];
   const { answers, submitted } = progress;
+
+  useEffect(() => {
+    if (!openAiQuestion) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenAiQuestion(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [openAiQuestion]);
 
   useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(progress));
@@ -199,12 +256,64 @@ function Runner({ meta, exam }: { meta: ExamMeta; exam: ExamData }) {
     finishExam(Date.now());
   };
 
+  const explainWithAi = async (qid: string, groupIndex: number, questionNo: number) => {
+    if (!submitted || aiLoadingQuestion) return;
+    if (openAiQuestion === qid) {
+      setOpenAiQuestion(null);
+      return;
+    }
+
+    setOpenAiQuestion(qid);
+    setAiErrors((current) => ({ ...current, [qid]: "" }));
+    if (aiExplanations[qid]) return;
+
+    setAiLoadingQuestion(qid);
+    const controller = new AbortController();
+    aiRequestController.current = controller;
+    try {
+      const response = await fetch("/api/ai/explanation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
+        body: JSON.stringify({
+          examId: exam.id,
+          sectionId: section.id,
+          groupIndex,
+          questionNo,
+          userAnswer: answers[qid] ?? null,
+        }),
+      });
+      const data = (await response.json()) as { explanation?: string; error?: string };
+      if (!response.ok || !data.explanation) {
+        throw new Error(data.error || "Chưa thể tạo giải thích. Vui lòng thử lại.");
+      }
+      setAiExplanations((current) => ({ ...current, [qid]: data.explanation! }));
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") return;
+      setAiErrors((current) => ({
+        ...current,
+        [qid]: error instanceof Error ? error.message : "Đã xảy ra lỗi khi kết nối với AI.",
+      }));
+    } finally {
+      if (aiRequestController.current === controller) {
+        aiRequestController.current = null;
+        setAiLoadingQuestion(null);
+      }
+    }
+  };
+
   const reset = () => {
     if (!window.confirm("Xoá toàn bộ câu trả lời và làm lại từ đầu?")) return;
+    aiRequestController.current?.abort();
+    aiRequestController.current = null;
     submittedRef.current = false;
     setPendingSection(null);
     setProgress(emptyProgress());
     setActive(0);
+    setAiExplanations({});
+    setAiErrors({});
+    setOpenAiQuestion(null);
+    setAiLoadingQuestion(null);
   };
 
   const leaveExam = () => {
@@ -365,16 +474,30 @@ function Runner({ meta, exam }: { meta: ExamMeta; exam: ExamData }) {
                 const audioOnly = q.options.every((o) => o === "");
                 return (
                   <div key={qid} id={qid} className="question">
-                    <div className="q-head">
-                      <span className="q-no">{section.audio ? `${q.no}ばん` : q.no}</span>
-                      {q.prompt && (
-                        <span className="q-prompt">
-                          <RichText text={q.prompt} />
-                        </span>
-                      )}
-                    </div>
-                    {q.image && (
-                      // eslint-disable-next-line @next/next/no-img-element
+                <div className="question-heading">
+                  <div className="q-head">
+                    <span className="q-no">{section.audio ? `${q.no}ばん` : q.no}</span>
+                    {q.prompt && (
+                      <span className="q-prompt">
+                        <RichText text={q.prompt} />
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    className="ai-explain-button"
+                    type="button"
+                    onClick={() => explainWithAi(qid, gi, q.no)}
+                    disabled={!submitted || aiLoadingQuestion !== null}
+                    aria-expanded={openAiQuestion === qid}
+                    aria-controls={`${qid}-ai-explanation`}
+                    title={submitted ? "Giải thích câu này bằng AI" : "Nộp bài để dùng gia sư AI"}
+                  >
+                    <span aria-hidden="true">✦</span>
+                    {aiLoadingQuestion === qid ? "Đang giải thích…" : "Hỏi gia sư AI"}
+                  </button>
+                </div>
+                {q.image && (
+                  // eslint-disable-next-line @next/next/no-img-element
                       <img className="figure q-figure" src={q.image} alt={`${q.no}`} />
                     )}
                     <div className={audioOnly ? "options inline" : "options"}>
@@ -401,6 +524,114 @@ function Runner({ meta, exam }: { meta: ExamMeta; exam: ExamData }) {
                         );
                       })}
                     </div>
+                    {openAiQuestion === qid && (
+                      <div
+                        className="ai-dialog-backdrop"
+                        onMouseDown={(event) => {
+                          if (event.target === event.currentTarget) setOpenAiQuestion(null);
+                        }}
+                      >
+                        <section
+                          className="ai-dialog"
+                          id={`${qid}-ai-explanation`}
+                          role="dialog"
+                          aria-modal="true"
+                          aria-labelledby={`${qid}-ai-title`}
+                          aria-describedby={`${qid}-ai-description`}
+                          aria-busy={aiLoadingQuestion === qid}
+                        >
+                          <header className="ai-dialog-header">
+                            <div>
+                              <p className="ai-dialog-kicker">GIA SƯ AI</p>
+                              <h2 id={`${qid}-ai-title`}>Giải thích câu {q.no}</h2>
+                              <p className="ai-dialog-subtitle">{section.title}</p>
+                            </div>
+                            <button
+                              className="ai-dialog-close"
+                              type="button"
+                              onClick={() => setOpenAiQuestion(null)}
+                              aria-label="Đóng phần giải thích"
+                              autoFocus
+                            >
+                              ×
+                            </button>
+                          </header>
+                          <div className="ai-dialog-body" id={`${qid}-ai-description`} aria-live="polite">
+                            <section className="ai-source-question" aria-label="Câu hỏi gốc">
+                              <div className="ai-source-heading">
+                                <span>CÂU HỎI GỐC</span>
+                                <span>{g.title} · Câu {q.no}</span>
+                              </div>
+                              {g.instruction && <p className="ai-source-instruction">{g.instruction}</p>}
+                              {g.passage && (
+                                <details className="ai-source-context">
+                                  <summary>Xem ngữ cảnh / bài đọc</summary>
+                                  <div className="ai-source-passage">
+                                    <RichText text={g.passage} />
+                                  </div>
+                                </details>
+                              )}
+                              {q.prompt ? (
+                                <p className="ai-source-prompt">
+                                  <RichText text={q.prompt} />
+                                </p>
+                              ) : (
+                                <p className="ai-source-prompt muted">
+                                  {audioOnly
+                                    ? "Câu hỏi và các lựa chọn được trình bày trong audio."
+                                    : "Câu hỏi dựa trên nội dung nghe."}
+                                </p>
+                              )}
+                              {q.image && (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img className="ai-source-image" src={q.image} alt={`Hình minh họa câu ${q.no}`} />
+                              )}
+                              {!audioOnly && (
+                                <ol className="ai-source-options">
+                                  {q.options.map((option, index) => {
+                                    const value = index + 1;
+                                    const isCorrect = value === q.answer;
+                                    const isPicked = value === picked;
+                                    return (
+                                      <li
+                                        key={index}
+                                        className={isCorrect ? "ai-source-option is-correct" : isPicked ? "ai-source-option is-wrong" : "ai-source-option"}
+                                      >
+                                        <span className="ai-source-option-number">{value}</span>
+                                        <span className="ai-source-option-text"><RichText text={option} /></span>
+                                        {isCorrect && <span className="ai-source-badge correct-badge">Đáp án đúng</span>}
+                                        {isPicked && <span className={`ai-source-badge ${isCorrect ? "picked-badge" : "wrong-badge"}`}>Bạn chọn</span>}
+                                      </li>
+                                    );
+                                  })}
+                                </ol>
+                              )}
+                              {audioOnly && (
+                                <p className="ai-source-audio-note">
+                                  Đáp án đúng: {q.answer} · Bạn chọn: {picked ?? "Chưa chọn"}
+                                </p>
+                              )}
+                            </section>
+                            {aiLoadingQuestion === qid && (
+                              <p className="ai-loading" role="status">
+                                <span className="ai-loading-spinner" aria-hidden="true" />
+                                Gia sư AI đang phân tích câu hỏi…
+                              </p>
+                            )}
+                            {aiErrors[qid] && <p className="ai-error">{aiErrors[qid]}</p>}
+                            {aiExplanations[qid] && (
+                              <section className="ai-response-section" aria-label="Giải thích của gia sư AI">
+                                <h3>Gia sư giải thích</h3>
+                                <AiAnswer text={aiExplanations[qid]} />
+                              </section>
+                            )}
+                          </div>
+                          {aiExplanations[qid] && (
+                            <footer className="ai-dialog-footer">Provided by Gemini AI</footer>
+                          )}
+                        </section>
+                      </div>
+                    )}
                   </div>
                 );
               })}
