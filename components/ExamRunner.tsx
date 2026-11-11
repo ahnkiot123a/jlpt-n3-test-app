@@ -76,6 +76,13 @@ function Runner({ meta, exam }: { meta: ExamMeta; exam: ExamData }) {
   const result = useMemo(() => (submitted ? scoreExam(exam, answers) : null), [submitted, exam, answers]);
 
   const openSection = (index: number) => {
+    if (submitted) {
+      setActive(index);
+      setProgress((p) => ({ ...p, activeSection: index }));
+      window.scrollTo({ top: 0 });
+      return;
+    }
+
     if (index <= active || index > active + 1) return;
     const target = exam.sections[index];
     const targetStartedAt = progress.startedAt[target.id];
@@ -215,6 +222,7 @@ function Runner({ meta, exam }: { meta: ExamMeta; exam: ExamData }) {
             href="/"
             className="back"
             onClick={(event) => {
+              if (submitted) return;
               event.preventDefault();
               setConfirmLeave(true);
             }}
@@ -313,7 +321,9 @@ function Runner({ meta, exam }: { meta: ExamMeta; exam: ExamData }) {
         {exam.sections.map((s, i) => {
           const startedAt = progress.startedAt[s.id];
           const expired = startedAt !== undefined && now >= startedAt + s.minutes * 60_000;
-          const locked = submitted || i < active || i > active + 1 || progress.lockedSections.includes(s.id) || expired;
+          const locked = !submitted && (
+            i < active || i > active + 1 || progress.lockedSections.includes(s.id) || expired
+          );
           return (
           <button key={s.id} className={i === active ? "tab active" : "tab"} onClick={() => openSection(i)} disabled={locked}>
             {s.title}
@@ -399,7 +409,7 @@ function Runner({ meta, exam }: { meta: ExamMeta; exam: ExamData }) {
           {active + 1 < exam.sections.length && (
             <div className="section-next">
               <button className="btn primary" onClick={() => openSection(active + 1)}>
-                Sang phần {exam.sections[active + 1].audio ? "nghe" : "ngữ pháp - đọc hiểu"}
+                {submitted ? "Xem" : "Sang"} phần {exam.sections[active + 1].audio ? "nghe" : "ngữ pháp - đọc hiểu"}
               </button>
             </div>
           )}
@@ -461,7 +471,7 @@ function ResultPanel({ areas, total, passed }: { areas: AreaScore[]; total: numb
       </div>
       <p className="muted small">
         Điểm quy đổi ước tính theo tỉ lệ câu đúng. Điều kiện đỗ: tổng ≥ 95 và mỗi phần ≥ 19. Đáp án đúng được tô xanh,
-        câu sai tô đỏ.
+        câu sai tô đỏ. Chọn các tab bên dưới để xem đáp án từng phần.
       </p>
     </div>
   );
