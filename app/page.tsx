@@ -14,10 +14,7 @@ export default function Home() {
     <main className="home">
       <header className="home-hero">
         <p className="home-kicker">Kho đề luyện thi</p>
-        <h1>Đề thi JLPT N3 các năm</h1>
-        <p className="home-description">
-          Luyện tập với đề tương tác có chấm điểm tự động hoặc mở đề PDF kèm audio.
-        </p>
+        <h1>Luyện thi tiếng Nhật N3</h1>
         <div className="home-stats" aria-label="Thống kê đề thi">
           <div className="home-stat">
             <strong>{exams.length}</strong>

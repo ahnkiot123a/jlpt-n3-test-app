@@ -35,7 +35,7 @@ async function ExamPageContent({ params }: ExamPageProps) {
   return (
     <main className="fallback">
       <Link href="/" className="back">← Danh sách đề</Link>
-      <h1>JLPT {meta.label}</h1>
+      <h1>Luyện tập N3 — {meta.label}</h1>
       <p className="muted">Đề này chưa được chuyển sang dạng tương tác. Bạn có thể xem PDF và nghe audio.</p>
       {meta.audio && <audio controls preload="auto" src={`/api/files/${id}/audio`} />}
       <div className="pdf-links">

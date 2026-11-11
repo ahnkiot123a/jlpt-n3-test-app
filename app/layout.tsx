@@ -3,8 +3,9 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "JLPT N3 – Luyện đề",
-  description: "Làm đề thi JLPT N3 các năm trực tiếp trên web",
+  title: "Luyện thi tiếng Nhật N3 | N3 Study Practice",
+  description:
+    "Nền tảng luyện tập tiếng Nhật trình độ N3.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -12,6 +13,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="vi">
       <body>
         {children}
+        <footer className="site-disclaimer">
+          <p>
+            N3 Study Practice là nền tảng luyện tập độc lập, không thuộc, không liên kết,
+            không được chứng thực hoặc bảo trợ bởi đơn vị tổ chức kỳ thi JLPT. 
+          </p>
+        </footer>
         <Analytics />
       </body>
     </html>

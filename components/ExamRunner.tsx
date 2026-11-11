@@ -229,7 +229,7 @@ function Runner({ meta, exam }: { meta: ExamMeta; exam: ExamData }) {
           >
             ← Danh sách đề
           </Link>
-          <h1>JLPT {meta.label}</h1>
+          <h1>Luyện tập N3 — {meta.label}</h1>
         </div>
         <div className="runner-actions">
           <span className="muted">

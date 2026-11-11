@@ -18,6 +18,9 @@ import exam201807 from "@/data/2018-07";
 import exam201812 from "@/data/2018-12";
 import exam201907 from "@/data/2019-07";
 import exam201912 from "@/data/2019-12";
+import exam202407 from "@/data/2024-07";
+import exam202412 from "@/data/2024-12";
+import exam202507 from "@/data/2025-07";
 import exam202607 from "@/data/2026-07";
 
 function meta(year: number, month: 7 | 12, files: Partial<ExamMeta> = {}): ExamMeta {
@@ -25,7 +28,7 @@ function meta(year: number, month: 7 | 12, files: Partial<ExamMeta> = {}): ExamM
   const script = year <= 2012 ? "Scrip" : "Script";
   return {
     id: `${year}-${String(month).padStart(2, "0")}`,
-    label: `N3 tháng ${month}/${year}`,
+    label: `N3 ${month}/${year}`,
     folder,
     audio: `Nghe ${folder}.mp3`,
     examPdf: `Đề ${folder}.pdf`,
@@ -243,6 +246,9 @@ const DATA: Record<string, ExamData> = {
   [exam201812.id]: exam201812,
   [exam201907.id]: exam201907,
   [exam201912.id]: exam201912,
+  [exam202407.id]: exam202407,
+  [exam202412.id]: exam202412,
+  [exam202507.id]: exam202507,
   [exam202607.id]: exam202607,
 };
 
