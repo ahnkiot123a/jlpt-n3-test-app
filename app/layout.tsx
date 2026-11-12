@@ -15,8 +15,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <footer className="site-disclaimer">
           <p>
-            N3 Study Practice là nền tảng luyện tập độc lập, không thuộc, không liên kết,
-            không được chứng thực hoặc bảo trợ bởi đơn vị tổ chức kỳ thi JLPT. 
+            Trang web này không thuộc, không liên kết, không được chứng thực hoặc bảo trợ bởi đơn vị tổ chức kỳ thi JLPT. 
           </p>
         </footer>
         <Analytics />
